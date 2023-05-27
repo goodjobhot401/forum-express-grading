@@ -26,8 +26,8 @@ router.post('/signin', passport.authenticate('local', {
 // user logout
 router.get('/logout', userController.logout)
 
-// restaurant index
-router.get('/restaurants', authenticated, restController.getRestaurants)
+// restaurant top
+router.get('/restaurants/top', authenticated, restController.getTopRestaurants)
 
 // restaurant feeds
 router.get('/restaurants/feeds', authenticated, restController.getFeeds)
@@ -37,6 +37,9 @@ router.get('/restaurants/:id', authenticated, restController.getRestaurant)
 
 // restaurant dashboard
 router.get('/restaurants/:id/dashboard', authenticated, restController.getDashboard)
+
+// restaurant index
+router.get('/restaurants', authenticated, restController.getRestaurants)
 
 // comment create
 router.post('/comments', authenticated, commentController.postComment)
@@ -67,6 +70,8 @@ router.get('/users/:id/edit', authenticated, userController.editUser)
 router.put('/users/:id', authenticated, upload.single('image'), userController.putUser)
 
 router.get('/', (req, res) => res.redirect('/restaurants'))
+
+// error
 router.use('/', generalErrorHandler)
 
 module.exports = router
