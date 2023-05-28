@@ -44,25 +44,24 @@ const userController = {
   },
 
   getUser: (req, res, next) => {
-    const { id } = req.params
-    return User.findByPk(id, {
-      include: [
-        {
-          model: Comment,
-          include: Restaurant
-        }
-      ]
-    })
-      .then(user => {
+    const loginUser = req.user ? Number(req.user.id) : ''
+    return Promise.all([
+      User.findByPk(req.params.id, {
+        include: [
+          { model: Comment, include: Restaurant },
+          { model: Restaurant, as: 'FavoritedRestaurants' },
+          { model: User, as: 'Followers' },
+          { model: User, as: 'Followings' }
+        ]
+      }),
+      User.findByPk(loginUser)
+    ])
+      .then(([user, loginUser]) => {
         if (!user) {
           throw new Error("User didn't exist!")
         }
-        if (req.user) {
-          if (user.id !== req.user.id) {
-            return res.redirect('/users/' + id)
-          }
-        }
-        res.render('users/profile', { user: user.toJSON() })
+        // console.log(user.toJSON(), loginUser)
+        res.render('users/profile', { user: user.toJSON(), loginUser })
       })
       .catch(err => next(err))
   },

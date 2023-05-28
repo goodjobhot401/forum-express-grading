@@ -62,12 +62,12 @@ router.delete('/following/:userId', authenticated, userController.removeFollowin
 // user top-users
 router.get('/users/top', authenticated, userController.getTopUsers)
 
-// user profile
-router.get('/users/:id', authenticated, userController.getUser)
-
 // user profile edit
 router.get('/users/:id/edit', authenticated, userController.editUser)
 router.put('/users/:id', authenticated, upload.single('image'), userController.putUser)
+
+// user profile
+router.get('/users/:id', authenticated, userController.getUser)
 
 router.get('/', (req, res) => res.redirect('/restaurants'))
 
