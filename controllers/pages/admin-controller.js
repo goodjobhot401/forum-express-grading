@@ -1,5 +1,5 @@
-const { Restaurant, User, Category } = require('../models')
-const { imgurFileHandler } = require('../helper/file-helpers')
+const { Restaurant, User, Category } = require('../../models')
+const { imgurFileHandler } = require('../../helper/file-helpers')
 const handlebars = require('handlebars')
 handlebars.registerHelper('addOne', function (value) {
   return value + 1
