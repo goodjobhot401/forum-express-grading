@@ -1,9 +1,9 @@
 const { Restaurant, Category, Comment, User } = require('../../models')
-const restaurantService = require('../../service/restaurant-services')
+const restaurantServices = require('../../service/restaurant-services')
 
 const restaurantController = {
   getRestaurants: (req, res, next) => {
-    restaurantService.getRestaurants(req, (err, data) => err ? next(err) : res.render('restaurants', data))
+    restaurantServices.getRestaurants(req, (err, data) => err ? next(err) : res.render('restaurants', data))
   },
 
   getRestaurant: (req, res, next) => {

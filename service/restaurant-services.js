@@ -1,7 +1,7 @@
 const { Restaurant, Category } = require('../models')
 const { getOffset, getPagination } = require('../helper/pagination-helper')
 
-const restaurantService = {
+const restaurantServices = {
   getRestaurants: (req, callback) => {
     const DEFAUT_LIMIT = 9
     const categoryId = Number(req.query.categoryId) || ''
@@ -42,4 +42,4 @@ const restaurantService = {
   }
 }
 
-module.exports = restaurantService
+module.exports = restaurantServices
