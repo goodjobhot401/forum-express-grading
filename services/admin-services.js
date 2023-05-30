@@ -1,3 +1,4 @@
+const { imgurFileHandler } = require('../helper/file-helpers')
 const { Restaurant, Category } = require('../models')
 
 const adminServices = {
@@ -8,6 +9,27 @@ const adminServices = {
       })
       .catch(err => cb(err))
   },
+
+  postRestaurant: (req, cb) => {
+    const { name, tel, address, openingHours, description, categoryId } = req.body
+
+    if (!name) throw new Error('Restaurant name is required!')
+
+    const { file } = req // 把檔案從 req 拿出來
+    imgurFileHandler(file) // 將取出的檔案交給 file-helpers.js 處理
+      .then(filePath => Restaurant.create({ // 再 create 這筆資料
+        name,
+        tel,
+        address,
+        openingHours,
+        description,
+        categoryId,
+        image: filePath || null
+      }))
+      .then(newRestaurant => cb(null, { restaurant: newRestaurant }))
+      .catch(err => cb(err))
+  },
+
   deleteRestaurant: (req, cb) => {
     return Restaurant.findByPk(req.params.id)
       .then(restaurant => {

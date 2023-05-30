@@ -18,26 +18,12 @@ const adminController = {
   },
 
   postRestaurant: (req, res, next) => {
-    const { name, tel, address, openingHours, description, categoryId } = req.body
-
-    if (!name) throw new Error('Restaurant name is required!')
-
-    const { file } = req // 把檔案從 req 拿出來
-    imgurFileHandler(file) // 將取出的檔案交給 file-helpers.js 處理
-      .then(filePath => Restaurant.create({ // 再 create 這筆資料
-        name,
-        tel,
-        address,
-        openingHours,
-        description,
-        categoryId,
-        image: filePath || null
-      }))
-      .then(() => {
-        req.flash('success_messages', 'restaurant is successfully created!')
-        res.redirect('/admin/restaurants')
-      })
-      .catch(err => next(err))
+    adminServices.postRestaurant(req, (err, data) => {
+      if (err) return next(err)
+      req.flash('success_messages', 'Restaurant was successfully created')
+      req.session.createdData = data
+      return res.redirect('/admin/restaurants', data)
+    })
   },
 
   getRestaurant: (req, res, next) => {

@@ -24,6 +24,7 @@ app.set('view engine', 'hbs')
 
 // body-parsers
 app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
 // session
 app.use(session({
   secret: SESSION_SECRET,
