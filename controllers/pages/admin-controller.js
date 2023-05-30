@@ -1,5 +1,6 @@
 const { Restaurant, User, Category } = require('../../models')
 const { imgurFileHandler } = require('../../helper/file-helpers')
+const adminServices = require('../../services/admin-services')
 const handlebars = require('handlebars')
 handlebars.registerHelper('addOne', function (value) {
   return value + 1
@@ -7,10 +8,7 @@ handlebars.registerHelper('addOne', function (value) {
 
 const adminController = {
   getRestaurants: (req, res, next) => {
-    return Restaurant.findAll({ raw: true, nest: true, include: [Category] })
-      .then(restaurants => {
-        return res.render('admin/restaurants', { restaurants })
-      })
+    adminServices.getRestaurants(req, (err, data) => err ? next(err) : res.render('admin-restaurants', data))
   },
 
   createRestaurant: (req, res, next) => {
