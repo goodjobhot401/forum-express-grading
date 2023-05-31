@@ -13,6 +13,9 @@ router.use('/admin', authenticated, authenticatedAdmin, admin)
 // read restuarants
 router.get('/restaurants', authenticated, restController.getRestaurants)
 
+// user signup
+router.post('/signup', userController.signUp)
+
 // user signin
 router.post('/signin', passport.authenticate('local', { session: false }), userController.signIn)
 
